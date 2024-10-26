@@ -2,15 +2,24 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Load the preprocessed data
-data_path = '/mnt/data/processed_titanic.csv'
+# Load the dataset
+data_path = 'processed_titanic.csv'
 data = pd.read_csv(data_path)
 
-# Calculate the correlation matrix
+# Compute the correlation matrix
 correlation_matrix = data.corr()
 
-# Plot the correlation matrix
+# Set up the matplotlib figure
 plt.figure(figsize=(10, 8))
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
-plt.title('Correlation Matrix of Titanic Dataset')
+
+# Create a heatmap of the correlation matrix
+sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='coolwarm', square=True, cbar_kws={"shrink": .8})
+
+# Add titles and labels
+plt.title('Correlation Matrix', fontsize=16)
+plt.xticks(rotation=45)
+plt.yticks(rotation=45)
+plt.tight_layout()
+
+# Show the plot
 plt.show()
