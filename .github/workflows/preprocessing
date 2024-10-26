@@ -1,0 +1,31 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Load the dataset
+data = pd.read_csv(r'C:\Users\Sanvi\Downloads\titanic.csv')
+
+# Drop irrelevant columns
+data = data.drop(columns=['PassengerId', 'Name', 'Ticket', 'Cabin'])
+
+# Fill missing values
+data['Age'].fillna(data['Age'].mean(), inplace=True)
+data['Embarked'].fillna(data['Embarked'].mode()[0], inplace=True)
+
+# Encode categorical columns: Sex and Embarked
+data['Sex'] = data['Sex'].map({'male': 0, 'female': 1})
+data = pd.get_dummies(data, columns=['Embarked'], drop_first=True)
+
+# Separate features and target variable
+X = data.drop('Survived', axis=1)
+y = data['Survived']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Scale the features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+data.to_csv('processed_titanic.csv', index=False)
