@@ -1,0 +1,44 @@
+import numpy as np
+from Model import LogisticRegressionModel
+import pandas as pd
+
+# Load the preprocessed data
+data = pd.read_csv(r'C:\Users\Sanvi\processed_titanic.csv')
+
+# Display the first few rows of the dataset to check the columns
+print(data.head())
+
+# Define the features and target variable
+X = data.drop(columns=['Survived'])  # Drop the target column from features
+y = data['Survived']  # Define the target column
+
+# Display the first few rows of the dataset to check the columns
+print(data.head())
+
+# Define the features and target variable
+X = data.drop(columns=['Survived'])  # Drop the target column from features
+y = data['Survived']  # Define the target column
+
+print("Features shape:", X.shape)
+print("Target shape:", y.shape)
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+print("Training features shape:", X_train.shape)
+print("Test features shape:", X_test.shape)
+print("Training target shape:", y_train.shape)
+print("Test target shape:", y_test.shape)
+
+# Convert the training and test data to numpy arrays
+X_train = np.array(X_train)
+X_test = np.array(X_test)
+y_train = np.array(y_train)
+y_test = np.array(y_test)
+
+# Initialize and train the logistic regression model
+model = LogisticRegressionModel(learning_rate=0.01, epochs=1000)
+model.fit(X_train, y_train)
+
+# Make predictions on the test data
+y_pred = model.predict(X_test)
